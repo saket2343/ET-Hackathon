@@ -1,0 +1,105 @@
+# Configuration for the modular RAG pipeline. Every threshold the code uses
+# lives here; components receive their section at construction.
+
+spell:
+  max_edit_distance: 2        # distance-2 only for tokens >= long_token_len
+  long_token_len: 6
+  min_token_len: 4            # never correct shorter tokens
+  min_confidence: 0.60        # below this the original token is kept
+  # Exact overrides, checked BEFORE the min-length guard — the only safe
+  # channel for short-word typos ('what si transformer' broke the "what is"
+  # intent pattern because 2-letter tokens are otherwise never corrected).
+  # Only unambiguous English function-word typos belong here.
+  user_dictionary:
+    si: is
+    teh: the
+    hte: the
+    waht: what
+    whta: what
+    wath: what
+    wht: what
+    wat: what
+    whats: what
+    hw: how
+    wy: why
+    ot: to
+    nd: and
+    adn: and
+    nad: and
+    taht: that
+    thier: their
+    wich: which
+    hwo: how
+    fo: of
+  protected_extra: []         # extra regexes to protect
+
+classifier:
+  # Ordered rules: first match wins as primary label. Extending the taxonomy
+  # is a YAML edit, not a code change.
+  rules:
+    - {label: comparison,     patterns: ['\bdifference between\b', '\bcompare\b', '\bversus\b', '\bvs\.?\b', '\bbetter than\b']}
+    - {label: debugging,      patterns: ['\berror\b', '\bexception\b', '\bfix\b', '\bnot working\b', '\btraceback\b', '\bdebug\b']}
+    - {label: sql,            patterns: ['\bsql\b', '\bselect\s+.*\bfrom\b', '\bjoin\b.*\btable\b']}
+    - {label: coding,         patterns: ['\bcode\b', '\bimplement\b', '\bwrite a\b.*\b(function|class|script)\b', '\bsnippet\b']}
+    - {label: mathematics,    patterns: ['\bderiv(e|ation)\b', '\bproof\b', '\bequation\b', '\bformula\b', '\btheorem\b']}
+    - {label: calculation,    patterns: ['\bcalculate\b', '\bhow (much|many)\b', '\bcompute\b']}
+    - {label: architecture,   patterns: ['\barchitecture\b', '\bdesign of\b', '\bcomponents? of\b', '\bhow .* structured\b']}
+    - {label: summarization,  patterns: ['\bsummar(y|ize|ise)\b', '\btl;?dr\b', '\bin short\b']}
+    - {label: multi_hop,      patterns: ['\band (then|also)\b.*\?.*\?', '\bfirst\b.*\bthen\b.*\?']}
+    - {label: reasoning,      patterns: ['^why\b', '\bwhy (was|is|are|did|does)\b', '\breason for\b', '\bneed (of|for)\b', '\bmotivation\b']}
+    - {label: procedure,      patterns: ['^how (do|to|can)\b', '\bsteps? to\b', '\bprocedure\b', '\bguide\b']}
+    - {label: fact_lookup,    patterns: ['^(who|when|where)\b', '\bwhat year\b', '\bhow old\b']}
+    - {label: definition,     patterns: ['^what (is|are)\b', '\bdefine\b', '\bmeaning of\b', '\bdefinition\b']}
+    - {label: research,       patterns: ['\bstate of the art\b', '\bliterature\b', '\bsurvey\b', '\bpapers?\b']}
+    - {label: documentation,  patterns: ['\bdocs?\b', '\bdocumentation\b', '\bapi reference\b']}
+    - {label: interview,      patterns: ['\binterview\b', '\bquestions? for\b.*\binterview\b']}
+    - {label: case_study,     patterns: ['\bcase study\b', '\breal[- ]world example\b']}
+  default_label: explanation
+
+# Facet templates per query class. "{A}"/"{B}" bind to comparison aspects,
+# "{E}" to the first entity. terms: presence of ANY marks the facet covered
+# (plus the entity itself must appear somewhere in evidence).
+evidence_facets:
+  reasoning:
+    - {name: problem or need,            terms: [problem, need, challenge, motivation, limitation]}
+    - {name: prior approaches and limits, terms: [previous, prior, before, traditional, rnn, drawback, limitation]}
+    - {name: proposed solution,          terms: [solution, propose, introduce, approach, instead]}
+    - {name: advantages,                 terms: [advantage, benefit, improve, faster, better, enable]}
+  comparison:
+    - {name: "definition of {A}",        terms: []}
+    - {name: "definition of {B}",        terms: []}
+    - {name: "differences",              terms: [difference, unlike, whereas, contrast, compared]}
+  procedure:
+    - {name: steps,                      terms: [step, first, then, next, finally, procedure]}
+    - {name: prerequisites,              terms: [require, prerequisite, before, must, ensure]}
+  definition:
+    - {name: definition,                 terms: [is a, refers to, defined, means]}
+    - {name: purpose or example,         terms: [used for, purpose, example, allows, enables]}
+  default:
+    - {name: direct evidence,            terms: []}
+
+retrieval_plans:
+  # class -> plan. Legs map onto the existing hybrid index.
+  default:      {legs: [dense, bm25],        k: 6,  decompose: false, strategy: hybrid}
+  comparison:   {legs: [dense, bm25, graph], k: 8,  decompose: true,  strategy: hybrid+aspects}
+  reasoning:    {legs: [dense, bm25, graph], k: 8,  decompose: true,  strategy: hybrid+facets}
+  multi_hop:    {legs: [dense, bm25, graph], k: 10, decompose: true,  strategy: iterative}
+  fact_lookup:  {legs: [bm25, dense],        k: 4,  decompose: false, strategy: precise}
+  coding:       {legs: [bm25, dense],        k: 6,  decompose: false, strategy: exact-symbol}
+  debugging:    {legs: [bm25, dense],        k: 8,  decompose: false, strategy: troubleshooting}
+  summarization: {legs: [dense],             k: 10, decompose: false, strategy: broad}
+
+ambiguity:
+  max_query_tokens: 3     # only very short queries can be ambiguous enough to ask
+  min_options: 3          # need >= this many distinct concepts to ask back
+  max_options: 6
+
+confidence_policy:
+  confident: 0.90         # coverage above this -> answer plainly
+  caveat: 0.70            # between caveat and confident -> answer with note
+  note: "Note: parts of this answer rest on partial evidence; see Limitations."
+  insufficient_message: "The available evidence is insufficient to answer this question reliably."
+
+retry:
+  max_iterations: 2       # generate/validate cycles beyond the first
+  min_new_evidence: 1     # stop iterating when retrieval adds fewer new chunks
