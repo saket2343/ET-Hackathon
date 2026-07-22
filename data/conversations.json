@@ -1,0 +1,53 @@
+{
+ "82af666a7315": {
+  "id": "82af666a7315",
+  "title": "Explain me about the failure history of the P-101 and about…",
+  "created": 1784741575.502302,
+  "updated": 1784742088.62066,
+  "pinned": false,
+  "messages": [
+   {
+    "role": "user",
+    "content": "explain me about the failure history of the P-101 and about its timeline?",
+    "ts": 1784741589.3363662
+   },
+   {
+    "role": "assistant",
+    "content": "**What is happening.** P-101 drive-end vibration is 5.45 mm/s and rising at ~0.83 mm/s/day — inside the alert zone (4.5–7.1 mm/s per SOP-315 [5]). At the current trend it crosses the 7.1 mm/s danger limit in about **2.0 days** (RUL). Bearing temperature is normal (71.4 °C), which points at mechanical wear, not lubrication.\n\n**Why.** Shaft misalignment driving bearing wear (BRG-204): the P&ID shows P-101 coupled to motor M-101, and 3 past work orders on P-101 show the same rising-1x-vibration signature, each resolved by BRG-204 replacement plus laser alignment (vendor manual failure mode 1 [4]).\n\n**Safety — hard gate.** LOTO Permit is REQUIRED before any work: isolate per SAF-12 §3 (breaker MCC-1-04 locked open, valves V-101/V-102 locked closed, zero-energy verified) [8]. No work proceeds without the permit.\n\n**What to do.** Schedule bearing replacement on P-101 within 1 days (predicted danger-limit crossing in ~2.0 days). Isolate per SAF-12 (LOTO), replace 2 x BRG-204 per SOP-207, laser-align, and verify vibration < 2.8 mm/s. Torque housing covers to 45 N·m and verify post-run vibration < 2.8 mm/s per SOP-207 [1]. Spares: 2 × BRG-204 in stock (Store A / Bin 14). A draft work order is prepared (Replace drive-end and non-drive-end bearings (BRG-204) on P-101) — pending your approval.",
+    "ts": 1784741589.3373492,
+    "meta": {
+     "entities": [
+      "SOP-207",
+      "SOP-101",
+      "ASSET-P-101-MANUAL",
+      "VM-P101",
+      "SOP-315",
+      "SAF-12",
+      "SAF-12",
+      "SAF-12",
+      "VT-101",
+      "WO-9901",
+      "WO-9788",
+      "WO-9310",
+      "WO-8811"
+     ],
+     "confidence": 0.82
+    }
+   }
+  ],
+  "documents": [
+   "M-101-metadata",
+   "M-101-sensor_summary",
+   "service_report"
+  ],
+  "entities": [
+   "SOP-207",
+   "SOP-101",
+   "ASSET-P-101-MANUAL",
+   "VM-P101",
+   "SOP-315",
+   "SAF-12"
+  ],
+  "topics": []
+ }
+}

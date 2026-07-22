@@ -1,0 +1,29 @@
+{
+  "drawing": "PID-AREA1-001",
+  "revision": "C",
+  "title": "P&ID Area 1 — Transfer Pump System",
+  "note": "This file simulates the output of AXON's vision service: symbol detection + line tracing + tag OCR on the P&ID drawing, assembled into topology.",
+  "symbols": [
+    {"tag": "T-100",  "type": "Tank",       "label": "Feed Tank",            "bbox": [40, 120, 160, 300]},
+    {"tag": "V-101",  "type": "Valve",      "label": "Suction Isolation",    "bbox": [200, 190, 240, 230]},
+    {"tag": "P-101",  "type": "Pump",       "label": "Transfer Pump",        "bbox": [300, 180, 380, 250]},
+    {"tag": "M-101",  "type": "Motor",      "label": "Pump Drive Motor",     "bbox": [300, 90, 380, 160]},
+    {"tag": "V-102",  "type": "Valve",      "label": "Discharge Isolation",  "bbox": [440, 190, 480, 230]},
+    {"tag": "V-103",  "type": "Valve",      "label": "Casing Drain",         "bbox": [330, 290, 360, 320]},
+    {"tag": "PI-101", "type": "Instrument", "label": "Discharge Pressure",   "bbox": [420, 110, 460, 150]},
+    {"tag": "VT-101", "type": "Instrument", "label": "Vibration Transmitter","bbox": [250, 250, 290, 290]},
+    {"tag": "FI-101", "type": "Instrument", "label": "Flow Indicator",       "bbox": [520, 110, 560, 150]},
+    {"tag": "E-201",  "type": "Exchanger",  "label": "Product Cooler",       "bbox": [600, 170, 720, 260]}
+  ],
+  "connections": [
+    {"from": "T-100",  "to": "V-101",  "line": "6\"-P-1001"},
+    {"from": "V-101",  "to": "P-101",  "line": "6\"-P-1001"},
+    {"from": "M-101",  "to": "P-101",  "line": "coupling"},
+    {"from": "P-101",  "to": "V-102",  "line": "4\"-P-1002"},
+    {"from": "P-101",  "to": "V-103",  "line": "1\"-D-1003"},
+    {"from": "PI-101", "to": "P-101",  "line": "impulse"},
+    {"from": "VT-101", "to": "P-101",  "line": "signal"},
+    {"from": "V-102",  "to": "FI-101", "line": "4\"-P-1002"},
+    {"from": "FI-101", "to": "E-201",  "line": "4\"-P-1002"}
+  ]
+}

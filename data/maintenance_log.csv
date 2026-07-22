@@ -1,0 +1,16 @@
+wo_number,date,equipment,type,failure_mode,symptom,cause,action,parts_used,downtime_hours
+WO-8811,2023-04-12,P-101,corrective,bearing failure,rising vibration 1x trend over 8 days,misalignment after coupling work,replaced BRG-204 bearings and laser aligned per SOP-207,BRG-204 x2,6
+WO-9042,2023-11-03,P-102,corrective,seal leak,drip at gland,seal face wear,replaced mechanical seal MS-88,MS-88 x1,4
+WO-9310,2024-06-21,P-101,corrective,bearing failure,vibration alert 5.2 mm/s rising trend,bearing wear (misalignment signature),replaced BRG-204 bearings and realigned,BRG-204 x2,5
+WO-9560,2024-09-15,M-101,preventive,none,scheduled PM,none,motor insulation test and greasing,none,2
+WO-9788,2025-02-08,P-101,corrective,bearing failure,vibration climbed 2.9 to 6.0 mm/s in 10 days,misalignment - coupling offset 0.09 mm found,replaced BRG-204 and corrected alignment to 0.03 mm,BRG-204 x2,5
+WO-9901,2025-07-19,P-101,preventive,none,scheduled PM,none,oil change ISO VG 68 and vibration baseline 2.1 mm/s,none,1
+WO-9977,2025-12-02,E-201,corrective,tube fouling,high outlet temperature,process fouling,cleaned tube bundle,none,12
+WO-16696B89,01/02/2023,TIA-942,root cause analysis,misalignment,misalignment,Analysis (RCA),workflows automatically,"CELL, CELLS, CENTRE, CENTRES, CERT, CERTIFICATION",0.0
+WO-DDE72E28,01/02/2005,TIA-942,working,,,maintance,repaired,,0.0
+WO-6055CE7F,2022-01-15,E-201,failure,Mechanical,Mechanical,Worn out bearing,Replace bearing,bearing,5.0
+WO-412D3C74,2022-02-20,FI-101,failure,Electrical,Electrical,Faulty circuit breaker,Replace circuit breaker,circuit breaker,2.0
+WO-5130517C,2022-03-15,M-101,failure,Mechanical,Mechanical,Loose connection,Tighten connection,,1.0
+WO-DFA61EF5,12/12/2005,M-101,sensor logs,,,,,,0.0
+WO-3D508ED8,12/10/2025,M-101,sensor logs,Machine Failure,Machine Failure,Rain,Problem Solved By the Service Man,,4.0
+WO-635C5097,22/07/2026,Amex,calibration report,Vibration,Vibration,Machine Failure,Resolved,,5.0

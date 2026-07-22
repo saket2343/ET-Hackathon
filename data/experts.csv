@@ -1,0 +1,6 @@
+name,role,area,topics
+Rajan Iyer,Line Operations Lead,Area 1,"restart,startup,shutdown,line 3,operation,changeover,alarm"
+Meera Nair,Rotating Equipment Specialist,Area 1,"pump,bearing,vibration,alignment,coupling,p-101,compressor,c-301,seal,motor"
+Sanjay Rao,Safety & Permits Officer,Plant,"permit,lockout,tagout,loto,isolation,confined space,hazard,ppe,safety"
+Anita Bose,Quality & Compliance Lead,Plant,"inspection,compliance,defect,spc,audit,crane,non-conformance,capa,checklist"
+Vikram Shah,Instrumentation & Controls Engineer,Area 1,"sensor,transmitter,calibration,control,plc,instrument,pi-101,vt-101"
