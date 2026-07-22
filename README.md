@@ -314,9 +314,9 @@ Every answer is generated using Retrieval-Augmented Generation (RAG) and include
 
 ---
 
-# 👥 Team
+# 👥 Team 
 
-Economics Times Hackathon 2026
+bs22b032 - Economics Times Hackathon 2026
 
 Asset360 AI – Enterprise Asset Intelligence Platform
 
