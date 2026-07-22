@@ -1,0 +1,28 @@
+# ── Core server ──────────────────────────────────────────────────────────
+fastapi>=0.110
+uvicorn>=0.29
+pydantic>=2.0
+python-multipart>=0.0.9          # multipart/form-data for file uploads
+
+# ── Query understanding & config (rag/ package) ─────────────────────────
+pyyaml>=6.0                      # rag/config.yaml loader — REQUIRED at boot
+
+# ── Retrieval & validation ───────────────────────────────────────────────
+sentence-transformers>=3.0       # cross-encoder rerank + NLI validation
+                                 # (pulls in torch, transformers, numpy)
+
+# ── Document ingestion ───────────────────────────────────────────────────
+pdfplumber>=0.11                 # PDF text + tables
+python-docx>=1.1                 # .docx (Word)
+openpyxl>=3.1                    # .xlsx (Excel)
+Pillow>=10.0                     # image dimensions + OCR input
+
+# ── Image OCR (needs the tesseract BINARY too: `brew install tesseract`) ──
+pytesseract>=0.3                 # text extraction from images; without the
+                                 # tesseract binary, images index as metadata
+
+# ── LLM gateway (all optional — the gateway degrades to a deterministic ──
+#    extractive answer if none are installed/configured; HF is primary). ──
+huggingface_hub>=0.24
+anthropic>=0.92.0
+python-dotenv>=1.0               # loads HF/Anthropic tokens from .env
